@@ -1,0 +1,57 @@
+﻿@using AlienInvaders.Models
+
+<div style="width: 400px; height: 500px; background: black; border: 0; position: relative;"
+     tabindex="0"
+     @onkeydown="MoveShipOnce"
+     @onkeyup="Shoot">
+    
+    <CascadingValue Value="_gameManager">
+        <GameInfoBar ></GameInfoBar>
+    </CascadingValue>
+    
+    
+    @foreach (var row in _gameManager.AlienInvaders)
+    {
+        foreach (var alien in row)
+        {
+            <Alien Invader="alien"></Alien>
+        }
+        <br />
+    }
+    
+
+    @foreach (var shot in _gameManager.Bullets)
+    {
+        <Bullet Shot="@shot"></Bullet>
+    }
+
+    <Ship MyShip="@_gameManager.Ship"></Ship>
+
+</div>
+@code {
+    GameManager _gameManager;
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _gameManager = new GameManager();
+        _gameManager.GameLoopCompleted += (o, e) => StateHasChanged();
+        //_gameManager.Alien.AlienShipHit += (o, e) => StateHasChanged();
+    }
+
+    public void MoveShipOnce(KeyboardEventArgs e)
+    {
+        if (e.Key == "a")
+            _gameManager.Ship.MoveLeft();
+        if (e.Key == "d")
+            _gameManager.Ship.MoveRight();
+    }
+
+    public async Task Shoot(KeyboardEventArgs e)
+    {
+        if (e.Key == " ")
+            await _gameManager.GenerateNewShot();
+    }
+
+}

@@ -1,0 +1,50 @@
+﻿@using AlienInvaders.Models
+<div class="m-0 p-1" style="width: 100%; height: 60px;">
+
+    <div class="info-row m-0 p-0">
+        <div>
+            <p class="m-0 p-0 pixel-font text-secondary">Invaders Destroyed: @GameManager.AliensHit</p>
+        </div>
+        <div>
+            <p class="m-0 p-0 pixel-font text-secondary">Shots fired: @GameManager.ShotsFired</p>
+        </div>
+    </div>
+
+    <div class="info-row">
+        <div>
+            <p class="m-0 p-0 pixel-font text-secondary">Time elapsed: @GameManager.TimeElapsed</p></div>
+    </div>
+</div>
+
+
+<style>
+    @@font-face {
+        font-family: 'Minecraft';
+        src: url('/fonts/Minecraft.ttf') format('truetype');
+    }
+
+    .pixel-font {
+        font-family: Minecraft;
+    }
+
+    .info-row {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+        }
+</style>
+
+@code {
+    [CascadingParameter]
+    GameManager GameManager { get; set; }
+
+    public double Time { get; private set; }
+
+    private void RoundTimeElapsed()
+    {
+        double timeInSec = GameManager.TimeElapsed / 1000;
+        Time = Math.Round(timeInSec, 2, MidpointRounding.AwayFromZero);
+    }
+
+}

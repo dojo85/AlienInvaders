@@ -1,0 +1,9 @@
+﻿@using AlienInvaders.Models
+<div style="width: 2px; height: 8px; background: deepskyblue; position: absolute; @_shotCss"></div>
+
+@code {
+    [Parameter]
+    public ShotModel Shot { get; set; }
+
+    string _shotCss => $"left: {Shot.DistanceFromLeft}px; top: {Shot.DistanceFromTop}px";
+}

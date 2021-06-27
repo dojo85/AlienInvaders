@@ -1,0 +1,18 @@
+﻿@using AlienInvaders.Models
+
+
+<div style="width: 30px;
+        height: 30px;
+        border: 0;
+        background-image: url(/images/alien.jpg);
+        position: relative; display: inline-block;
+        @_alienCss @_visibility"></div>
+
+@code {
+    [Parameter]
+    public AlienModel Invader { get; set; }
+
+    string _alienCss => $"left: {Invader.DistanceFromLeft}px; top: {Invader.DistanceFromTop}px;";
+
+    string _visibility => $"visibility: {Invader.VisibilityCss}";
+}
