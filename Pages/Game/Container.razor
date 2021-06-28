@@ -1,43 +1,81 @@
 ﻿@using AlienInvaders.Models
 
 <div style="width: 400px; height: 500px; background: black; border: 0; position: relative;"
-     tabindex="0"
+     tabindex="0" autofocus
      @onkeydown="MoveShipOnce"
      @onkeyup="Shoot">
-    
-    <CascadingValue Value="_gameManager">
-        <GameInfoBar ></GameInfoBar>
-    </CascadingValue>
-    
-    
-    @foreach (var row in _gameManager.AlienInvaders)
+
+    @if (!GameHasStarted)
     {
-        foreach (var alien in row)
+        <div class="start-panel">
+            <div class="d-flex justify-content-center">
+                <p class="pixel-font text-light text-center">Click Start to begin game.</p><br />
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-light pixel-font" @onclick="StartGame">Start</button>
+            </div>
+        </div>
+    }
+    else
+    {
+        <CascadingValue Value="_gameManager">
+            <GameInfoBar></GameInfoBar>
+        </CascadingValue>
+
+
+        @foreach (var row in _gameManager.AlienInvaders)
         {
-            <Alien Invader="alien"></Alien>
+            foreach (var alien in row)
+            {
+                <Alien Invader="alien"></Alien>
+            }
+            <br />
         }
-        <br />
+
+
+        @foreach (var shot in _gameManager.Bullets)
+        {
+            <Bullet Shot="@shot"></Bullet>
+        }
+
+        <Ship MyShip="@_gameManager.Ship"></Ship>
     }
     
+    <style>
+        @@font-face {
+            font-family: 'Minecraft';
+            src: url('/fonts/Minecraft.ttf') format('truetype');
+        }
 
-    @foreach (var shot in _gameManager.Bullets)
-    {
-        <Bullet Shot="@shot"></Bullet>
-    }
+        .pixel-font {
+            font-family: Minecraft;
+        }
 
-    <Ship MyShip="@_gameManager.Ship"></Ship>
-
+        .start-panel {
+            width: 100%;
+            position: relative;
+            top: 250px;
+            justify-content: center;
+        }
+    </style>
 </div>
 @code {
     GameManager _gameManager;
 
+    public bool GameHasStarted { get; set; }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         _gameManager = new GameManager();
         _gameManager.GameLoopCompleted += (o, e) => StateHasChanged();
-        //_gameManager.Alien.AlienShipHit += (o, e) => StateHasChanged();
+    }
+
+    public void StartGame()
+    {
+        GameHasStarted = true;
+        StateHasChanged();
+        _gameManager.StartGame();
     }
 
     public void MoveShipOnce(KeyboardEventArgs e)

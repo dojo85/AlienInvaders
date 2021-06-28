@@ -10,29 +10,28 @@ namespace AlienInvaders.Models
     {
         public ShipModel Ship { get; set; }
         public List<ShotModel> Bullets { get; set; }
-
         public int ShotsFired { get; set; }
-
         public int AliensHit { get; set; }
+        public List<List<AlienModel>> AlienInvaders { get; set; }
+        public List<AlienModel> ListOfInvaders { get; set; } = new List<AlienModel>();
+        public bool IsRunning { get; set; }
+        public double TimeElapsed { get; set; }
 
         public event EventHandler GameLoopCompleted;
-
-        public List<List<AlienModel>> AlienInvaders { get; set; }
-
-        public List<AlienModel> ListOfInvaders { get; set; } = new List<AlienModel>();
-        
-        public bool IsRunning { get; set; }
-
-        public double TimeElapsed { get; set; }
+        public event EventHandler GameStarted;
 
         public GameManager()
         {
             Ship = new ShipModel();            
             Bullets = new List<ShotModel>();
-
             AlienInvaders = Invade();
             WaitForHits();
+            IsRunning = false;
+        }
 
+        public void StartGame()
+        {
+            GameStarted?.Invoke(this, EventArgs.Empty);
             IsRunning = true;
             GameLoop();
         }
