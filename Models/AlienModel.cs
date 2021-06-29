@@ -71,8 +71,8 @@ namespace AlienInvaders.Models
         private void SetHitCoordinates(int top, int left)
         {
             int topValue = top + 90;
-            int leftValue = left + (left - 30) -14;
-            int rightValue = leftValue + 30;
+            int leftValue = left + (left - 30) -14 + 1;
+            int rightValue = leftValue + 30 - 3;
             HitCoordinates = new[] {topValue, leftValue, rightValue};
         }
 

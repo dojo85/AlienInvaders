@@ -1,7 +1,10 @@
 ﻿@using AlienInvaders.Models
+@using System.Reflection.Metadata
+@using System.Security.Cryptography
+@inject IJSRuntime JS
 
 <div style="width: 400px; height: 500px; background: black; border: 0; position: relative;"
-     tabindex="0" autofocus
+     tabindex="0" @ref="GameContainer"
      @onkeydown="MoveShipOnce"
      @onkeyup="Shoot">
 
@@ -41,6 +44,15 @@
         <Ship MyShip="@_gameManager.Ship"></Ship>
     }
     
+    @if (_gameManager.AliensHit == 18 && !_gameManager.IsRunning)
+    {
+        <div class="d-flex justify-content-center align-items-center game-over-panel">
+            <div class="pixel-font">
+                <GameOver Score="@_gameManager.CalculateScore()"></GameOver>
+            </div>
+        </div>
+    }
+    
     <style>
         @@font-face {
             font-family: 'Minecraft';
@@ -54,15 +66,28 @@
         .start-panel {
             width: 100%;
             position: relative;
-            top: 250px;
+            top: 200px;
             justify-content: center;
         }
+
+        .game-over-panel {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
     </style>
 </div>
+
+
 @code {
     GameManager _gameManager;
 
     public bool GameHasStarted { get; set; }
+
+    protected ElementReference GameContainer;
 
     protected override void OnInitialized()
     {
@@ -71,25 +96,25 @@
         _gameManager.GameLoopCompleted += (o, e) => StateHasChanged();
     }
 
-    public void StartGame()
+    public async Task StartGame()
     {
         GameHasStarted = true;
         StateHasChanged();
         _gameManager.StartGame();
+        await JS.InvokeVoidAsync("focusOnElement", GameContainer);
     }
 
     public void MoveShipOnce(KeyboardEventArgs e)
     {
-        if (e.Key == "a")
+        if (e.Key == "ArrowLeft")
             _gameManager.Ship.MoveLeft();
-        if (e.Key == "d")
+        if (e.Key == "ArrowRight")
             _gameManager.Ship.MoveRight();
     }
 
     public async Task Shoot(KeyboardEventArgs e)
     {
-        if (e.Key == " ")
+        if (_gameManager.IsRunning && e.Key == " ")
             await _gameManager.GenerateNewShot();
     }
-
 }
