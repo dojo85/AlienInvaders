@@ -28,9 +28,9 @@ namespace AlienInvaders.Models
 
         private void SetHitCoordinates(int top, int left)
         {
-            int topValue = top + 90;
-            int leftValue = left + (left - 30) - 14 + 1;
-            int rightValue = leftValue + 30 - 3;
+            int topValue = top * 2 + 60;
+            int leftValue = left + left - 43; //(left - 30) - 14 + 1
+            int rightValue = leftValue + 27; // +30 -3
             HitCoordinates = new[] { topValue, leftValue, rightValue };
         }
 
@@ -60,9 +60,6 @@ namespace AlienInvaders.Models
                         (bullet.Coordinates[1] >= alien.HitCoordinates[1] && bullet.Coordinates[1] <= alien.HitCoordinates[2]))
                     )
                     {
-                        //WasHit = true;
-                        //VisibilityCss = "hidden";
-                        //Bullets.Remove(bullet);
                         DestroyAlien(bullet);
                         return true;
                     }
