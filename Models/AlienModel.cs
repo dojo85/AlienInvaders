@@ -18,18 +18,21 @@ namespace AlienInvaders.Models
         }
 
         public int[] HitCoordinates { get; private set; } = new[] {0, 0, 0};
-
         public int DistanceFromTop { get; set; }
-
         public int DistanceFromLeft { get; set; }
-
         public List<ShotModel> Bullets { get; set; }
-
         public bool WasHit { get; set; }
-
         public string VisibilityCss { get; set; }
 
         public event EventHandler AlienShipHit;
+
+        private void SetHitCoordinates(int top, int left)
+        {
+            int topValue = top + 90;
+            int leftValue = left + (left - 30) - 14 + 1;
+            int rightValue = leftValue + 30 - 3;
+            HitCoordinates = new[] { topValue, leftValue, rightValue };
+        }
 
         private async Task AlienOperations()
         {
@@ -57,24 +60,22 @@ namespace AlienInvaders.Models
                         (bullet.Coordinates[1] >= alien.HitCoordinates[1] && bullet.Coordinates[1] <= alien.HitCoordinates[2]))
                     )
                     {
-                        WasHit = true;
-                        VisibilityCss = "hidden";
-                        Bullets.Remove(bullet);
+                        //WasHit = true;
+                        //VisibilityCss = "hidden";
+                        //Bullets.Remove(bullet);
+                        DestroyAlien(bullet);
                         return true;
                     }
                 }
             }
-
             return false;
         }
 
-        private void SetHitCoordinates(int top, int left)
+        private void DestroyAlien(ShotModel bullet)
         {
-            int topValue = top + 90;
-            int leftValue = left + (left - 30) -14 + 1;
-            int rightValue = leftValue + 30 - 3;
-            HitCoordinates = new[] {topValue, leftValue, rightValue};
+            WasHit = true;
+            VisibilityCss = "hidden";
+            Bullets.Remove(bullet);
         }
-
     }
 }

@@ -8,10 +8,10 @@ namespace AlienInvaders.Models
 {
     public class ShipModel
     {
-        private const int ShotFrequency = 800;
+        public int ShotFrequency { get; set; } = 800;
+        public int Speed { get; set; } = 10;
 
         public int DistanceFromLeft { get; set; } = 185;
-        public int Speed { get; set; } = 10;
         public bool IsReadyToFire { get; set; } = true;
 
         public void MoveLeft()
