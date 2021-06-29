@@ -40,11 +40,4 @@
     GameManager GameManager { get; set; }
 
     public double Time { get; private set; }
-
-    private void RoundTimeElapsed()
-    {
-        double timeInSec = GameManager.TimeElapsed / 1000;
-        Time = Math.Round(timeInSec, 2, MidpointRounding.AwayFromZero);
-    }
-
 }

@@ -1,0 +1,15 @@
+﻿@using AlienInvaders.Models
+<div>
+    <p class="text-center text-light">
+        Game over!<br/>
+        You won!<br/>
+        You achieved:<br/>
+        @Score<br/>
+        Points
+    </p>
+</div>
+
+@code {
+    [Parameter]
+    public double Score { get; set; }
+}

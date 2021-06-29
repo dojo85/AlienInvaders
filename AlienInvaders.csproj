@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\alienInvaders.js" />
     <None Include="wwwroot\images\spaceship.jpg" />
   </ItemGroup>
 

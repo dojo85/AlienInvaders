@@ -121,5 +121,13 @@ namespace AlienInvaders.Models
             }
         }
 
+        public double CalculateScore()
+        {
+            double p1 = ShotsFired / 18;
+            double p2 = TimeElapsed / 18;
+            double score = 1 / (p1 + p2) * 1_000_000_000;
+            return Math.Round(score, 0, MidpointRounding.AwayFromZero);
+        }
+
     }
 }
