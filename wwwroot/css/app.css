@@ -5,6 +5,11 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #3b3e50;
+    background-image: url('../images/aibg1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }
 
 a, .btn-link {
